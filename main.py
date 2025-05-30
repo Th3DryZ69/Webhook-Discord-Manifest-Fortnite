@@ -84,7 +84,7 @@ def save_known_versions(known_versions):
         with open(VERSIONS_FILE, "w", encoding="utf-8") as f:
             json.dump(known_versions, f, indent=4, ensure_ascii=False)
     except Exception as e:
-        print(f"❌ error : {e}")
+        print(e)
 
 def get_access_token():
     try:
@@ -104,7 +104,7 @@ def get_access_token():
         resp.raise_for_status()
         return resp.json()['access_token']
     except requests.RequestException as e:
-        print(f"❌ Error token: {e}")
+        print(f"Error token: {e}")
         return None
 
 def get_manifest(logical_platform, token):
@@ -131,7 +131,7 @@ def get_manifest(logical_platform, token):
         resp.raise_for_status()
         return resp.json()
     except requests.RequestException as e:
-        print(f"❌ Error for {logical_platform}: {e}")
+        print(f"Error for {logical_platform}: {e}")
         return None
 
 def send_discord_embed(platform, version, manifest_url, manifest_id):
@@ -151,7 +151,7 @@ def send_discord_embed(platform, version, manifest_url, manifest_id):
     try:
         requests.post(WEBHOOK_URL, json=payload).raise_for_status()
     except Exception as e:
-        print(f"❌ Error : {e}")
+        print(e)
 
 def watch_manifests():
     token = get_access_token()
@@ -166,7 +166,6 @@ def watch_manifests():
             data = get_manifest(platform, token)
 
             if data == "REFRESH_TOKEN":
-                print("🔁 Token expiré, renouvellement...")
                 token = get_access_token()
                 data = get_manifest(platform, token)
                 if not data or data == "REFRESH_TOKEN":
@@ -185,14 +184,12 @@ def watch_manifests():
             path = m.get('uri')
             q = m.get('queryParams', [{}])[0]
             manifest_url = f"{path}?{q.get('name')}={q.get('value')}"
-
             manifest_id = path.split("/")[-1].replace(".manifest", "")
 
             if known_versions.get(platform) != version:
                 known_versions[platform] = version
                 save_known_versions(known_versions)
                 send_discord_embed(platform, version, manifest_url, manifest_id)
-                print(f"✅ New manifest for {platform}: {version}")
 
         time.sleep(300)
 

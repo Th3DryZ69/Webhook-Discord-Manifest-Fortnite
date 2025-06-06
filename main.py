@@ -136,54 +136,41 @@ def get_manifest(logical_platform, token):
         print(f"Error for {logical_platform}: {e}")
         return None
 
-def download_and_push_manifest(manifest_url, platform, version):
-    folder = "manifests"
+def download_and_push_manifest(manifest_url, platform, manifest_id, version):
+    if platform == "Android Shipping":
+        folder = "manifests/AndroidShipping"
+    else:
+        folder = "manifests/WindowsContent"
     os.makedirs(folder, exist_ok=True)
-    filename = f"{platform.replace(' ', '_')}_{version}.manifest"
+    filename = f"{manifest_id}.manifest"
     filepath = os.path.join(folder, filename)
 
-    # Télécharger le manifest
     response = requests.get(manifest_url)
     if response.status_code == 200:
         with open(filepath, 'wb') as f:
             f.write(response.content)
 
-        # Ajouter, commit et push
         subprocess.run(["git", "add", filepath])
         subprocess.run(["git", "commit", "-m", f"Add {platform} manifest for version {version}"])
         subprocess.run(["git", "push"])
 
-        # Retourne le lien brut GitHub
-        repo_url = "https://raw.githubusercontent.com/<username>/<repo>/main"
-        return f"{repo_url}/{quote(filepath)}"
+        github_path = f"{folder}/{filename}"
+        github_url = f"https://github.com/Th3DryZ69/Webhook-Discord-Manifest-Fortnite/raw/main/{quote(github_path)}"
+
+        return github_url
     else:
         print(f"Erreur lors du téléchargement du manifest : {response.status_code}")
-        return manifest_url  # fallback
-
+        return manifest_url
 
 def send_discord_embed(platform, version, manifest_url, manifest_id):
     color = PLATFORM_COLORS.get(platform, 0xFFFFFF)
     emoji = PLATFORM_EMOJIS.get(platform, "📦")
 
-    # if platform =="Windows Content":
-    #     expire_timestamp = int(time.time()) + 7200 # 2 hours
-    #     manifest_value = f"[{manifest_id}]({manifest_url})\n-# the link expires in <t:{expire_timestamp}:R>"
-    # elif platform == "Android Shipping":
-    #     expire_timestamp = int(time.time()) + 300 # 5 minutes
-    #     manifest_value = f"[{manifest_id}]({manifest_url})\n-# the link expires in <t:{expire_timestamp}:R>"
-    # else:
-    #     manifest_value = f"[{manifest_id}]({manifest_url})"
-
-    if platform == "Android Shipping":
-    # Télécharger et push le manifest sur GitHub
-        github_url = download_and_push_manifest(manifest_url, platform, version)
+    if platform in ["Android Shipping", "Windows Content"]:
+        github_url = download_and_push_manifest(manifest_url, platform, manifest_id, version)
         manifest_value = f"[{manifest_id}]({github_url})"
-    elif platform == "Windows Content":
-        expire_timestamp = int(time.time()) + 7200
-        manifest_value = f"[{manifest_id}]({manifest_url})\n-# The link expires in <t:{expire_timestamp}:R>"
     else:
         manifest_value = f"[{manifest_id}]({manifest_url})"
-
 
     embed = {
         "title": f"{emoji} {platform} Fortnite Update",

@@ -8,7 +8,7 @@ from base64 import b64encode
 
 CLIENT_ID = '34a02cf8f4414e29b15921876da36f9a'
 CLIENT_SECRET = 'daafbccc737745039dffe53d94fc76cf'
-WEBHOOK_URL = "https://discord.com/api/webhooks/1378100105886040134/Npu17ff0lTzB0HluEc1OlMWIAzpggnO1oScdut8RWSI1RBTOeK1DTd4utEeCjr09EILZ"
+WEBHOOK_URL = "WEBHOOK_URL_HERE"  # Replace with your Discord webhook URL
 
 URLS = {
     'Android': '5cb97847cee34581afdbc445400e2f77/app/FortniteContentBuilds',

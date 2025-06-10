@@ -172,7 +172,7 @@ def download_and_push_manifest(manifest_url, platform, manifest_id, version):
             subprocess.run(["git", "push"])
 
         github_path = f"{folder}/{filename}"
-        github_url = f"https://github.com/Th3DryZ69/ManifestFortnites/raw/main/{quote(github_path)}"
+        github_url = f"https://github.com/Th3DryZ69/Webhook-Discord-Manifest-Fortnite/raw/main/{quote(github_path)}"
 
         return github_url
     else:

@@ -8,7 +8,6 @@ from base64 import b64encode
 
 CLIENT_ID = '34a02cf8f4414e29b15921876da36f9a'
 CLIENT_SECRET = 'daafbccc737745039dffe53d94fc76cf'
-# WEBHOOK_URL = "WEBHOOK_URL_HERE"  # Replace with your Discord webhook URL
 WEBHOOK_URL = os.getenv("WEBHOOK_URL")
 
 URLS = {
@@ -138,25 +137,42 @@ def get_manifest(logical_platform, token):
         return None
 
 def download_and_push_manifest(manifest_url, platform, manifest_id, version):
-    if platform == "Android Shipping":
-        folder = "manifests/AndroidShipping"
+    if platform == "Android":
+        folder = "manifests/Mobiles/Android"
+    elif platform == "Android Shipping":
+        folder = "manifests/Mobiles/Android/Shipping"
+    elif platform == "IOS":
+        folder = "manifests/Mobiles/IOS"
+    elif platform == "Windows":
+        folder = "manifests/Windows"
+    elif platform == "Windows Content":
+        folder = "manifests/Windows/Content"
+    elif platform == "Switch":
+        folder = "manifests/Consoles/Switch"
+    elif platform == "PS4":
+        folder = "manifests/Consoles/PS4"
+    elif platform == "PS5":
+        folder = "manifests/Consoles/PS5"
+    elif platform == "XSX":
+        folder = "manifests/Consoles/XBoxSeriesX"
+    elif platform == "XB1":
+        folder = "manifests/Consoles/XBoxOne"
     else:
-        folder = "manifests/WindowsContent"
+        print(f"Unsupported platform for manifest download: {platform}")
     os.makedirs(folder, exist_ok=True)
-    filename = f"{manifest_id}.manifest"
+    filename = f"{version}.manifest"
     filepath = os.path.join(folder, filename)
 
     response = requests.get(manifest_url)
-    if response.status_code == 200:
+    if not os.path.exists(filepath):
         with open(filepath, 'wb') as f:
             f.write(response.content)
-
-        subprocess.run(["git", "add", filepath])
-        subprocess.run(["git", "commit", "-m", f"Add {platform} manifest for version {version}"])
-        subprocess.run(["git", "push"])
+            subprocess.run(["git", "add", filepath])
+            subprocess.run(["git", "commit", "-m", f"Add {platform} manifest for version {version} ({manifest_id})"])
+            subprocess.run(["git", "push"])
 
         github_path = f"{folder}/{filename}"
-        github_url = f"https://github.com/Th3DryZ69/Webhook-Discord-Manifest-Fortnite/raw/main/{quote(github_path)}"
+        github_url = f"https://github.com/Th3DryZ69/ManifestFortnites/raw/main/{quote(github_path)}"
 
         return github_url
     else:
@@ -167,11 +183,8 @@ def send_discord_embed(platform, version, manifest_url, manifest_id):
     color = PLATFORM_COLORS.get(platform, 0xFFFFFF)
     emoji = PLATFORM_EMOJIS.get(platform, "📦")
 
-    if platform in ["Android Shipping", "Windows Content"]:
-        github_url = download_and_push_manifest(manifest_url, platform, manifest_id, version)
-        manifest_value = f"[{manifest_id}]({github_url})"
-    else:
-        manifest_value = f"[{manifest_id}]({manifest_url})"
+    github_url = download_and_push_manifest(manifest_url, platform, manifest_id, version)
+    manifest_value = f"[{manifest_id}]({github_url})"
 
     embed = {
         "title": f"{emoji} {platform} Fortnite Update",

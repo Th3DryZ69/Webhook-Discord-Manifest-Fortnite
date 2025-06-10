@@ -1,10 +1,12 @@
 {
-    "Android": "++Fortnite+Release-35.20-CL-42911808-Android",
-    "IOS": "++Fortnite+Release-35.20-CL-42911808-IOS",
-    "Windows": "++Fortnite+Release-35.20-CL-42911808-Windows",
-    "Switch": "++Fortnite+Release-35.20-CL-43050448-Switch",
-    "PS4": "++Fortnite+Release-35.20-CL-42911808-PS4",
-    "PS5": "++Fortnite+Release-35.20-CL-42911808-PS5",
-    "XB1": "++Fortnite+Release-35.20-CL-42911808-XB1",
-    "XSX": "++Fortnite+Release-35.20-CL-42911808-XSX"
+    "Android": "++Fortnite+Release-36.00-CL-43214806-Android",
+    "Android Shipping": "++Fortnite+Release-36.00-CL-43214806-Shipping-Android",
+    "IOS": "++Fortnite+Release-36.00-CL-43214806-IOS",
+    "Windows": "++Fortnite+Release-36.00-CL-43214806-Windows",
+    "Windows Content": "++Fortnite+Release-36.00-CL-43336072-Windows",
+    "Switch": "++Fortnite+Release-36.00-CL-43173620-Switch",
+    "PS4": "++Fortnite+Release-36.00-CL-43214806-PS4",
+    "PS5": "++Fortnite+Release-36.00-CL-43214806-PS5",
+    "XB1": "++Fortnite+Release-36.00-CL-43214806-XB1",
+    "XSX": "++Fortnite+Release-36.00-CL-43214806-XSX"
 }

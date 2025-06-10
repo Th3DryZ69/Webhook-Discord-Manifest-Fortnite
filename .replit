@@ -1,7 +1,3 @@
-run = "python main.py"
-language = "python3"
-entrypoint = "main.py"
-
 [workflows]
 runButton = "Run"
 
@@ -12,4 +8,4 @@ mode = "sequential"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "python main.py"
+args = "python3 main.py"

@@ -166,19 +166,22 @@ def download_and_push_manifest(manifest_url, platform, manifest_id, version):
     filepath = os.path.join(folder, filename)
 
     response = requests.get(manifest_url)
-    if not os.path.exists(filepath):
-        with open(filepath, 'wb') as f:
-            f.write(response.content)
+    if response.status_code == 200:
+        if not os.path.exists(filepath):
+            with open(filepath, 'wb') as f:
+                f.write(response.content)
             subprocess.run(["git", "add", filepath])
             subprocess.run(["git", "commit", "-m", f"Add {platform} manifest for version {version} ({manifest_id})"])
             subprocess.run(["git", "push"])
+        else:
+            print(f"The file '{filepath}' already exists. No downloads have been performed.")
 
         github_path = f"{folder}/{filename}"
         github_url = f"https://github.com/Th3DryZ69/Webhook-Discord-Manifest-Fortnite/raw/main/{quote(github_path)}"
 
         return github_url
     else:
-        print(f"Erreur lors du téléchargement du manifest : {response.status_code}")
+        print(f"Error downloading manifest: {response.status_code}")
         return manifest_url
 
 def send_discord_embed(platform, version, manifest_url, manifest_id):

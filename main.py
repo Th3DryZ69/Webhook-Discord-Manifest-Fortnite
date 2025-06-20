@@ -141,68 +141,67 @@ def get_manifest(logical_platform, token):
         print(f"Error for {logical_platform}: {e}")
         return None
 
-# def download_and_push_manifest(manifest_url, platform, manifest_id, version):
-#     if platform == "Android":
-#         folder = "manifests/Mobiles/Android"
-#     elif platform == "Android Shipping":
-#         folder = "manifests/Mobiles/Android/Shipping"
-#     elif platform == "IOS":
-#         folder = "manifests/Mobiles/IOS"
-#     elif platform == "Windows":
-#         folder = "manifests/Windows"
-#     elif platform == "Windows Content":
-#         folder = "manifests/Windows/Content"
-#     elif platform == "Switch":
-#         folder = "manifests/Consoles/Switch"
-#     elif platform == "Switch2":
-#         folder = "manifests/Consoles/Switch2"
-#     elif platform == "PS4":
-#         folder = "manifests/Consoles/PS4"
-#     elif platform == "PS5":
-#         folder = "manifests/Consoles/PS5"
-#     elif platform == "XSX":
-#         folder = "manifests/Consoles/XBoxSeriesX"
-#     elif platform == "XB1":
-#         folder = "manifests/Consoles/XBoxOne"
-#     else:
-#         print(f"Unsupported platform for manifest download: {platform}")
-#     os.makedirs(folder, exist_ok=True)
-#     filename = f"{version}.manifest"
-#     filepath = os.path.join(folder, filename)
+def download_and_push_manifest(manifest_url, platform, manifest_id, version):
+    if platform == "Android":
+        folder = "manifests/Mobiles/Android"
+    elif platform == "Android Shipping":
+        folder = "manifests/Mobiles/Android/Shipping"
+    elif platform == "IOS":
+        folder = "manifests/Mobiles/IOS"
+    elif platform == "Windows":
+        folder = "manifests/Windows"
+    elif platform == "Windows Content":
+        folder = "manifests/Windows/Content"
+    elif platform == "Switch":
+        folder = "manifests/Consoles/Switch"
+    elif platform == "Switch2":
+        folder = "manifests/Consoles/Switch2"
+    elif platform == "PS4":
+        folder = "manifests/Consoles/PS4"
+    elif platform == "PS5":
+        folder = "manifests/Consoles/PS5"
+    elif platform == "XSX":
+        folder = "manifests/Consoles/XBoxSeriesX"
+    elif platform == "XB1":
+        folder = "manifests/Consoles/XBoxOne"
+    else:
+        print(f"Unsupported platform for manifest download: {platform}")
+    os.makedirs(folder, exist_ok=True)
+    filename = f"{version}.manifest"
+    filepath = os.path.join(folder, filename)
 
-#     response = requests.get(manifest_url)
-#     if response.status_code == 200:
-#         if not os.path.exists(filepath):
-#             with open(filepath, 'wb') as f:
-#                 f.write(response.content)
-#             subprocess.run(["git", "add", filepath])
-#             subprocess.run(["git", "commit", "-m", f"Add {platform} manifest for version {version} ({manifest_id})"])
-#             subprocess.run(["git", "push"])
-#         else:
-#             print(f"The file '{filepath}' already exists. No downloads have been performed.")
+    response = requests.get(manifest_url)
+    if response.status_code == 200:
+        if not os.path.exists(filepath):
+            with open(filepath, 'wb') as f:
+                f.write(response.content)
+            subprocess.run(["git", "add", filepath])
+            subprocess.run(["git", "commit", "-m", f"Add {platform} manifest for version {version} ({manifest_id})"])
+            subprocess.run(["git", "push"])
+        else:
+            print(f"The file '{filepath}' already exists. No downloads have been performed.")
 
-#         github_path = f"{folder}/{filename}"
-#         github_url = f"https://github.com/Th3DryZ69/Webhook-Discord-Manifest-Fortnite/raw/main/{quote(github_path)}"
+        github_path = f"{folder}/{filename}"
+        github_url = f"https://github.com/Th3DryZ69/Webhook-Discord-Manifest-Fortnite/raw/main/{quote(github_path)}"
 
-#         return github_url
-#     else:
-#         print(f"Error downloading manifest: {response.status_code}")
-#         return manifest_url
+        return github_url
+    else:
+        print(f"Error downloading manifest: {response.status_code}")
+        return manifest_url
 
 def send_discord_embed(platform, version, manifest_url, manifest_id):
     color = PLATFORM_COLORS.get(platform, 0xFFFFFF)
     emoji = PLATFORM_EMOJIS.get(platform, "📦")
 
-    # github_url = download_and_push_manifest(manifest_url, platform, manifest_id, version)
-    # manifest_value = f"[{manifest_id}]({manifest_url})"
+    github_url = download_and_push_manifest(manifest_url, platform, manifest_id, version)
+    manifest_value = f"[{manifest_id}]({manifest_url})"
 
     embed = {
         "title": f"{emoji} {platform} Fortnite Update",
         "color": color,
         "fields": [
             {"name": "Build Version", "value": version, "inline": True},
-            # {"name": f"Manifest ID", "value": manifest_value, "inline": False}
-            {"name": f"Manifest ID", "value": manifest_id, "inline": False}
+            {"name": f"Manifest ID", "value": manifest_value, "inline": False}
         ]
     }
 

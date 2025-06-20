@@ -1,2 +1,13 @@
 {
+    "Android": "++Fortnite+Release-36.10-CL-43451620-Android",
+    "Android Shipping": "++Fortnite+Release-36.10-CL-43451620-Shipping-Android",
+    "IOS": "++Fortnite+Release-36.10-CL-43486998-IOS",
+    "Windows": "++Fortnite+Release-36.10-CL-43486998-Windows",
+    "Windows Content": "++Fortnite+Release-36.10-CL-43486998-Windows",
+    "Switch": "++Fortnite+Release-36.10-CL-43451620-Switch",
+    "Switch2": "++Fortnite+Release-36.10-CL-43451620-Switch2",
+    "PS4": "++Fortnite+Release-36.10-CL-43451620-PS4",
+    "PS5": "++Fortnite+Release-36.10-CL-43451620-PS5",
+    "XB1": "++Fortnite+Release-36.10-CL-43451620-XB1",
+    "XSX": "++Fortnite+Release-36.10-CL-43451620-XSX"
 }

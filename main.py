@@ -19,6 +19,7 @@ URLS = {
     'Windows': '4fe75bbc5a674f4f9b356b5c90567da5/app/Fortnite',
     'Windows Content': '5cb97847cee34581afdbc445400e2f77/app/FortniteContentBuilds',
     'Switch': '5cb97847cee34581afdbc445400e2f77/app/FortniteContentBuilds',
+    'Switch2': '5cb97847cee34581afdbc445400e2f77/app/FortniteContentBuilds',
     'PS4': '5cb97847cee34581afdbc445400e2f77/app/FortniteContentBuilds',
     'PS5': '5cb97847cee34581afdbc445400e2f77/app/FortniteContentBuilds',
     'XB1': '5cb97847cee34581afdbc445400e2f77/app/FortniteContentBuilds',
@@ -32,6 +33,7 @@ PLATFORM_COLORS = {
     "Android Shipping": 0x00C853,
     "IOS": 0x999999,
     "Switch": 0xE60012,
+    "Switch2": 0xE60012,
     "PS4": 0x003791,
     "PS5": 0x0A0A0A,
     "XB1": 0x107C10,
@@ -45,6 +47,7 @@ PLATFORM_EMOJIS = {
     "Android Shipping": "<:android:1377998429493657611>",
     "IOS": "<:ios:1377996922907791391>",
     "Switch": "<:switch:1377998371658399974>",
+    "Switch2": "<:switch:1377998371658399974>",
     "PS4": "<:ps4:1377998418370232370>",
     "PS5": "<:ps5:1377998403706818691>",
     "XB1": "<:xbox:1377998397633724526>",
@@ -151,6 +154,8 @@ def download_and_push_manifest(manifest_url, platform, manifest_id, version):
         folder = "manifests/Windows/Content"
     elif platform == "Switch":
         folder = "manifests/Consoles/Switch"
+    elif platform == "Switch2":
+        folder = "manifests/Consoles/Switch2"
     elif platform == "PS4":
         folder = "manifests/Consoles/PS4"
     elif platform == "PS5":
